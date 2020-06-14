@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Setup Beagle Bone | HOME</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.03f36f2d.css" as="style"><link rel="preload" href="/assets/js/app.049d8ffe.js" as="script"><link rel="preload" href="/assets/js/6.eb778a46.js" as="script"><link rel="preload" href="/assets/js/1.a43d9313.js" as="script"><link rel="preload" href="/assets/js/2.c38b8a48.js" as="script"><link rel="preload" href="/assets/js/18.e2edf437.js" as="script"><link rel="prefetch" href="/assets/js/10.cef0c773.js"><link rel="prefetch" href="/assets/js/11.ce72afc2.js"><link rel="prefetch" href="/assets/js/12.8dac3e8d.js"><link rel="prefetch" href="/assets/js/13.4b84e505.js"><link rel="prefetch" href="/assets/js/14.f00ca743.js"><link rel="prefetch" href="/assets/js/15.c15d9768.js"><link rel="prefetch" href="/assets/js/16.f51e21ba.js"><link rel="prefetch" href="/assets/js/17.91ed8390.js"><link rel="prefetch" href="/assets/js/5.79670416.js"><link rel="prefetch" href="/assets/js/7.e90946dc.js"><link rel="prefetch" href="/assets/js/8.aae9d64a.js"><link rel="prefetch" href="/assets/js/9.76e18325.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.82968c32.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.03f36f2d.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">HOME</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">
+  Posts
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Misc" class="dropdown-title"><span class="title">Misc</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/channel-links.html" class="nav-link">
+  Playlists
+</a></li><li class="dropdown-item"><!----> <a href="/photos/photos.html" class="nav-link">
+  Photography
+</a></li><li class="dropdown-item"><!----> <a href="/celtics/celtics.html" class="nav-link">
+  My Celtics
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">
+  Posts
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Misc" class="dropdown-title"><span class="title">Misc</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/channel-links.html" class="nav-link">
+  Playlists
+</a></li><li class="dropdown-item"><!----> <a href="/photos/photos.html" class="nav-link">
+  Photography
+</a></li><li class="dropdown-item"><!----> <a href="/celtics/celtics.html" class="nav-link">
+  My Celtics
+</a></li></ul></div></div> <!----></nav>  <!----> </aside> <main class="page"> <div class="theme-astrid-content"><h1 id="setup-beagle-bone"><a href="#setup-beagle-bone" class="header-anchor">#</a>
+      Setup Beagle Bone
+    </h1> <div class="content__default"><p>Instructions on setting up development environment on Beagle Bone, in case I forget it again.
+</p> <h3 id="check-usb-connection"><a href="#check-usb-connection" class="header-anchor">#</a> Check USB connection</h3> <p>First, verify the USB connection</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ usb-devices
+</code></pre></div><p>If it's good, something similar to the following will show up</p> <div class="language-log extra-class"><pre class="language-text"><code>T:  Bus=01 Lev=01 Prnt=01 Port=01 Cnt=02 Dev#=  4 Spd=12  MxCh= 0
+D:  Ver= 1.10 Cls=ef(misc ) Sub=02 Prot=01 MxPS=64 #Cfgs=  1
+P:  Vendor=1d6b ProdID=0104 Rev=04.04
+S:  Manufacturer=Seeed
+S:  Product=BeagleBoneGreen
+</code></pre></div><p>Alternatively you can check the kernel log</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> usb
+</code></pre></div><p>Example result:</p> <div class="language-log extra-class"><pre class="language-text"><code>[  841.388142] usb 1-2: New USB device found, idVendor=1d6b, idProduct=0104
+[  841.388144] usb 1-2: New USB device strings: Mfr=3, Product=4, SerialNumber=5
+[  841.388146] usb 1-2: Product: BeagleBoneGreen
+[  841.388147] usb 1-2: Manufacturer: Seeed
+[  841.388148] usb 1-2: SerialNumber: BBG217071901
+</code></pre></div><h3 id="serial-port-over-usb"><a href="#serial-port-over-usb" class="header-anchor">#</a> Serial Port over USB</h3> <p>Find the <code>tty</code> corresponding to Serial over USB by checking kernel log</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">dmesg</span> <span class="token operator">|</span> <span class="token function">grep</span> <span class="token function">tty</span>
+</code></pre></div><p>e.g. found <code>ttyACM0</code></p> <div class="language-log extra-class"><pre class="language-text"><code>[    5.901768] cdc_acm 1-2:1.2: ttyACM0: USB ACM device
+</code></pre></div><p>Connect through Serial Port</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">screen</span> /dev/ttyACM0 <span class="token number">115200</span>
+</code></pre></div><p>Frequently used Serial instructions:</p> <ul><li>Show help: <code>Control a + (no control) ?</code></li> <li>Exit: <code>Control a + (no control) \</code></li></ul> <h3 id="ethernet-over-usb"><a href="#ethernet-over-usb" class="header-anchor">#</a> Ethernet over USB</h3> <p>Execute <code>ifconfig</code> on both Beagle Bone and your Host device to check the IPs and interfaces of Ethernet over USB.</p> <p>Seems by default, Beagle Bone and Host are under the subnet <code>192.168.7.0/24</code>,
+with Beagle Bone having IP address <code>192.168.7.2</code> and Host having IP address <code>192.168.7.1</code>.</p> <h3 id="route-beagle-bone-network-traffic-on-host"><a href="#route-beagle-bone-network-traffic-on-host" class="header-anchor">#</a> Route Beagle Bone network traffic on Host</h3> <h4 id="on-beagle-bone"><a href="#on-beagle-bone" class="header-anchor">#</a> On Beagle Bone</h4> <p>Route all traffic to Host (IP <code>192.168.7.1</code>)</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> <span class="token function">ip</span> route <span class="token function">add</span> default via <span class="token number">192.168</span>.7.1
+</code></pre></div><h4 id="on-host"><a href="#on-host" class="header-anchor">#</a> On Host</h4> <p>Find <code>&lt;Beagle Bone interface&gt;</code> and <code>&lt;Host network interface&gt;</code> through <code>ifconfig</code></p> <p>Enable IP layer forward</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> sysctl -w net.ipv4.ip_forward<span class="token operator">=</span><span class="token number">1</span>
+</code></pre></div><p>Add NAT rule</p> <div class="language-bash extra-class"><pre class="language-bash"><code>$ <span class="token function">sudo</span> iptables -A FORWARD --in-interface <span class="token operator">&lt;</span>Beagle Bone interface<span class="token operator">&gt;</span> -j ACCEPT
+$ <span class="token function">sudo</span> iptables -t nat -A POSTROUTING --out-interface <span class="token operator">&lt;</span>Host network interface<span class="token operator">&gt;</span> -j MASQUERADE
+</code></pre></div><h3 id="dns-server"><a href="#dns-server" class="header-anchor">#</a> DNS server</h3> <p>Prepend DNS server address to <code>resolv.conf</code></p> <div class="language- extra-class"><pre class="language-text"><code>$ sudo sed -i '1inameserver 8\.8\.8\.8' /etc/resolv.conf
+</code></pre></div></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated by lujc:</span> <span class="time">6/14/2020, 5:09:35 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.049d8ffe.js" defer></script><script src="/assets/js/6.eb778a46.js" defer></script><script src="/assets/js/1.a43d9313.js" defer></script><script src="/assets/js/2.c38b8a48.js" defer></script><script src="/assets/js/18.e2edf437.js" defer></script>
+  </body>
+</html>
