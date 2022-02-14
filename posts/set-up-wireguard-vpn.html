@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Set Up Wireguard VPN Server</title>
+    <meta name="generator" content="VuePress 1.5.0">
+    
+    <meta name="description" content="">
+    <link rel="preload" href="/assets/css/0.styles.a7a650b7.css" as="style"><link rel="preload" href="/assets/js/app.16e6993d.js" as="script"><link rel="preload" href="/assets/js/6.5200d407.js" as="script"><link rel="preload" href="/assets/js/1.ed51565e.js" as="script"><link rel="preload" href="/assets/js/2.7fd9a54f.js" as="script"><link rel="preload" href="/assets/js/22.3d1b9696.js" as="script"><link rel="prefetch" href="/assets/js/10.7c5e8cee.js"><link rel="prefetch" href="/assets/js/11.66252696.js"><link rel="prefetch" href="/assets/js/12.51b33934.js"><link rel="prefetch" href="/assets/js/13.9aa85bfc.js"><link rel="prefetch" href="/assets/js/14.6e5d83c4.js"><link rel="prefetch" href="/assets/js/15.7b475cef.js"><link rel="prefetch" href="/assets/js/16.2fba18a8.js"><link rel="prefetch" href="/assets/js/17.7ef9a15e.js"><link rel="prefetch" href="/assets/js/18.9d1c7c54.js"><link rel="prefetch" href="/assets/js/19.46bb81dc.js"><link rel="prefetch" href="/assets/js/20.aa392f3a.js"><link rel="prefetch" href="/assets/js/21.c76916a2.js"><link rel="prefetch" href="/assets/js/23.10ed8e63.js"><link rel="prefetch" href="/assets/js/24.8db9cbc8.js"><link rel="prefetch" href="/assets/js/25.949ef4e5.js"><link rel="prefetch" href="/assets/js/26.d64eedcc.js"><link rel="prefetch" href="/assets/js/27.622815d1.js"><link rel="prefetch" href="/assets/js/28.6dbf35fb.js"><link rel="prefetch" href="/assets/js/5.bbd5390b.js"><link rel="prefetch" href="/assets/js/7.2a97dcdd.js"><link rel="prefetch" href="/assets/js/8.46271304.js"><link rel="prefetch" href="/assets/js/9.dc4a5b3d.js"><link rel="prefetch" href="/assets/js/vendors~docsearch.dd1bc204.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.a7a650b7.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/#posts" class="nav-link">
+  Posts
+</a></div><div class="nav-item"><a href="/#readings" class="nav-link">
+  Readings
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Misc" class="dropdown-title"><span class="title">Misc</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/channel-links.html" class="nav-link">
+  Playlists
+</a></li><li class="dropdown-item"><!----> <a href="/photos/photos.html" class="nav-link">
+  Photography
+</a></li></ul></div></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/#posts" class="nav-link">
+  Posts
+</a></div><div class="nav-item"><a href="/#readings" class="nav-link">
+  Readings
+</a></div><div class="nav-item"><div class="dropdown-wrapper"><button type="button" aria-label="Misc" class="dropdown-title"><span class="title">Misc</span> <span class="arrow right"></span></button> <ul class="nav-dropdown" style="display:none;"><li class="dropdown-item"><!----> <a href="/channel-links.html" class="nav-link">
+  Playlists
+</a></li><li class="dropdown-item"><!----> <a href="/photos/photos.html" class="nav-link">
+  Photography
+</a></li></ul></div></div> <!----></nav>  <!----> </aside> <main class="page"> <div class="theme-astrid-content"><h1 id="set-up-wireguard-vpn-server"><a href="#set-up-wireguard-vpn-server" class="header-anchor">#</a>
+      Set Up Wireguard VPN Server
+    </h1> <div class="content__default"><p>Wireguard is a VPN protocol, which has an implementation presents in the Linux kernel.
+This post records my first time experience setting up a Wireguard VPN for my heterogeneous devices (Macbook, iphone, etc.)
+</p> <h3 id="motivation"><a href="#motivation" class="header-anchor">#</a> Motivation</h3> <p>There are a lot of things of Wireguard that I would consider very interesting.
+Such as</p> <ul><li><a href="https://www.wireguard.com/formal-verification/" target="_blank" rel="noopener noreferrer">formal verification<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> that the protocol that has gone through,</li> <li><a href="https://git.zx2c4.com/wireguard-linux" target="_blank" rel="noopener noreferrer">implementation<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> inside Linux kernel,</li> <li><a href="https://github.com/WireGuard" target="_blank" rel="noopener noreferrer">clients<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> are available for different platforms with community efforts,
+etc.</li></ul> <p>These facts give me a good confidence on its security and performance.
+And here goes this post, a written down of my first time experience to set up a working Wireguard VPN service.</p> <h3 id="the-server"><a href="#the-server" class="header-anchor">#</a> The server</h3> <p>I used a VM instance from one of those big cloud service providers to build my Wireguard server.
+I call it a server because I have some presets in my mind about how I would use the Wireguard guard for,
+I would like to re-route all the network traffic of some of my mobile devices to a remote server.
+Thus, the remote server works more like a &quot;server&quot;.</p> <p>However, the Wireguard protocol and its configuration are more Peer-to-Peer-ish.
+It can be more flexible than the server-client model I am going to describe below.</p> <p>I used a Ubuntu 20.04 LTS for my server.
+Wireguard implementation is presented in Linux kernel starting from 5.6.
+If you are using a kernel older than 5.6, you need to install the manually install Wireguard kernel driver through &quot;apt install wireguard-dkms&quot;, otherwise you are good.
+In both case, you will need some userspace utilities through &quot;apt install wireguard&quot;.</p> <h4 id="key-pairs"><a href="#key-pairs" class="header-anchor">#</a> Key pairs</h4> <p>Wireguard peers authenticates use public and private key.
+Every Wireguard peer (either server or client in my case) generates a public and private key pair.
+The public key will be given to other peers for authentication and access control.
+<a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-20-04#step-1-installing-wireguard-and-generating-a-key-pair" target="_blank" rel="noopener noreferrer">This DigitalOcean guide<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a>
+gives a good instruction on to generate key pairs.</p> <h4 id="choose-ip-ranges"><a href="#choose-ip-ranges" class="header-anchor">#</a> Choose IP ranges</h4> <p>The above DO Wireguard guide also has a well written section on how to choose both IPv4 and IPv6 for VPNs.</p> <p>In my case, I choose the subnet 10.8.0.1/24.</p> <h4 id="create-ip-interface-and-routes"><a href="#create-ip-interface-and-routes" class="header-anchor">#</a> Create ip interface and routes</h4> <div class="language- extra-class"><pre class="language-text"><code>ip link add dev wg0 type wireguard
+</code></pre></div><p>This command creates an interface &quot;wg0&quot; with type <code>wireguard</code>.</p> <div class="language- extra-class"><pre class="language-text"><code>ip address add dev wg0 10.8.0.1/24
+</code></pre></div><p>This command assigns IP protocol and address to the interface &quot;wg0&quot;.
+It is essential for the server to know that
+it needs to send traffic with destination &quot;10.8.0.1/24&quot; to interface &quot;wg0&quot;.
+You can use <code>ip route</code> to verify its effect.</p> <div class="language- extra-class"><pre class="language-text"><code>ip link set up dev wg0
+</code></pre></div><p>Activate the &quot;wg0&quot; interface. Now, you can see it with <code>ifconfig</code></p> <h4 id="create-configuration"><a href="#create-configuration" class="header-anchor">#</a> Create configuration</h4> <p>Edit &quot;/etc/wireguard/wg0.conf&quot; to the following content</p> <div class="language-nginx extra-class"><pre class="language-nginx"><code><span class="token punctuation">[</span>Interface<span class="token punctuation">]</span>
+ListenPort <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 
+PrivateKey <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> 
+
+<span class="token punctuation">[</span>Peer<span class="token punctuation">]</span>
+PublicKey <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span> <span class="token comment"># The public key of peer(client)</span>
+AllowedIPs <span class="token operator">=</span> <span class="token number">10.8</span><span class="token number">.0</span><span class="token number">.2</span> <span class="token comment"># I will assign this IP to client in the following sections.</span>
+
+<span class="token comment">#[Peer]</span>
+<span class="token comment"># More peers ...</span>
+</code></pre></div><p>Most of the fields here are trivial to fill.
+However, the &quot;AllowedIPs&quot; is worth some explanation.
+This fields denotes what traffic the server is going to send to the client.
+Since I am building a server-client model, the server only needs send client the traffic aiming for the client, thus the field is the client's IP.
+If you are setting up a topology that allows some kind of broadcast within the subnet, then &quot;10.8.0.0/24&quot; would make more sense.</p> <p>Also, note that &quot;ListenPort&quot; is the used by the kernel implementation to watch for UDP traffic.
+Not TCP it is using, and not from a user space process, so don't expect to find the port being opened on those monitoring tool.
+Though, you will see ingress and egress traffic on the port when the VPN is on later.</p> <div class="language- extra-class"><pre class="language-text"><code>wg setconf wg0 /etc/wireguard/wg0.conf
+</code></pre></div><p>This command applies the above configurations to &quot;wg0&quot; interface.
+You can use &quot;wg show&quot; to</p> <h4 id="firewall-rules"><a href="#firewall-rules" class="header-anchor">#</a> Firewall rules</h4> <div class="language- extra-class"><pre class="language-text"><code>iptables -A FORWARD -i wg0 -o &lt;ethernet_interface&gt; -j ACCEPT
+iptables -t nat -I POSTROUTING -o &lt;ethernet_interface&gt; -j MASQUERADE
+</code></pre></div><p>These two rules forwards traffics from interface &quot;wg0&quot; to the actual ethernet interface.
+Refer to <a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-20-04#step-5-configuring-the-wireguard-server-s-firewall" target="_blank" rel="noopener noreferrer">DO Wireguard guide<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a> on the explanation and how to get the ethernet interface.</p> <div class="language-bash extra-class"><pre class="language-bash"><code><span class="token function">apt</span> <span class="token function">install</span> iptables-persistent
+</code></pre></div><p>To make those rules persistent to reboot.</p> <h4 id="setup-systemctl-service"><a href="#setup-systemctl-service" class="header-anchor">#</a> Setup systemctl service</h4> <p>The userspace Wireguard tool comes with a nice script <code>wg-quick</code> and a service <code>/lib/systemd/system/wg-quick@.service</code>.
+With the help of them, the above created &quot;wg0.conf&quot; can be easily turned into a systemctl service.</p> <p>Before creating the service for &quot;wg0&quot;, we would want to de-active what we have done to it.
+Otherwise, when service starts, some ip settings may duplicate and fail.</p> <div class="language-bash extra-class"><pre class="language-bash"><code>wg-quick down wg0 <span class="token comment"># The reverse is &quot;wg-quick up wg0&quot;</span>
+</code></pre></div><div class="language-bash extra-class"><pre class="language-bash"><code>systemctl <span class="token builtin class-name">enable</span> wg-quick@wg0 <span class="token comment"># maps to /etc/wireguard/wg0.conf</span>
+systemctl start wg-quick@wg0
+</code></pre></div><h3 id="the-client"><a href="#the-client" class="header-anchor">#</a> The client</h3> <p>Setup client is very similar to dealing with the server.
+Anyway from the perspective of the protocol, both of them are just Wireguard peers.</p> <p>I used the Wireguard client from Apple App Store.
+It turns out that I only need to provide a configuration file, other parts are taken care of by the application itself.</p> <p>The client configuration looks like this:</p> <div class="language-nginx extra-class"><pre class="language-nginx"><code><span class="token punctuation">[</span>Interface<span class="token punctuation">]</span>
+PrivateKey <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+Address <span class="token operator">=</span> <span class="token number">10.8</span><span class="token number">.0</span><span class="token number">.2</span><span class="token operator">/</span><span class="token number">24</span>
+DNS <span class="token operator">=</span> <span class="token number">8.8</span><span class="token number">.8</span><span class="token number">.8</span>
+
+<span class="token punctuation">[</span>Peer<span class="token punctuation">]</span>
+PublicKey <span class="token operator">=</span> <span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+AllowedIPs <span class="token operator">=</span> <span class="token number">0.0</span><span class="token number">.0</span><span class="token number">.0</span><span class="token operator">/</span><span class="token number">0</span>
+Endpoint <span class="token operator">=</span> <span class="token operator">&lt;</span>server_ip<span class="token operator">&gt;</span><span class="token punctuation">:</span><span class="token operator">&lt;</span>server_listen_port<span class="token operator">&gt;</span>
+PersistentKeepalive <span class="token operator">=</span> <span class="token number">25</span>
+</code></pre></div><p>Simply provides &quot;DNS&quot; in the &quot;interface&quot; would allow all the DNS traffic to go through the VPN.
+For the &quot;AllowedIPS&quot; field, I fill it with wild card because I want to secure all the traffic.
+Also some are saying &quot;PersistentKeepalive&quot; is important if your peers are behind stateful firewall.</p> <h3 id="debugging"><a href="#debugging" class="header-anchor">#</a> Debugging</h3> <p>Because the Wireguard implementation resides in the Linux kernel, it almost leaves no trace in the user space.
+The only approach let Wireguard spit out some logs is through the kernel dynamic debugging.</p> <div class="language- extra-class"><pre class="language-text"><code>echo module wireguard +p &gt; /sys/kernel/debug/dynamic_debug/control
+</code></pre></div><p>However, on my VM, I found privilege is missing even I execute the command from &quot;root&quot; user, which means the <code>debugfs</code> is not accessible at all.
+So, do expect this to happen, if you are also running VMs from service providers.
+Fortunately, compared to other alternative technologies, I found Wireguard relatively easier to set up.</p> <p>Thanks for the reading.</p> <h2 id="reference"><a href="#reference" class="header-anchor">#</a> Reference</h2> <ul><li><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-20-04" target="_blank" rel="noopener noreferrer">https://www.digitalocean.com/community/tutorials/how-to-set-up-wireguard-on-ubuntu-20-04<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li> <li><a href="https://www.wireguard.com/quickstart/" target="_blank" rel="noopener noreferrer">https://www.wireguard.com/quickstart/<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></li></ul></div></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated by lujc:</span> <span class="time">2/14/2022, 2:17:20 PM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.16e6993d.js" defer></script><script src="/assets/js/6.5200d407.js" defer></script><script src="/assets/js/1.ed51565e.js" defer></script><script src="/assets/js/2.7fd9a54f.js" defer></script><script src="/assets/js/22.3d1b9696.js" defer></script>
+  </body>
+</html>
