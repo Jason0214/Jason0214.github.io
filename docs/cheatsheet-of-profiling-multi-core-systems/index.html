@@ -1,0 +1,90 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><meta content=no-referrer name=referrer><meta content="width=device-width,initial-scale=1.0,maximum-scale=5" name=viewport><title>Cheatsheet of Profiling Multi-Core Systems | Jiacheng's Mini Blog</title><meta content="Cheatsheet of Profiling Multi-Core Systems | Jiacheng's Mini Blog" property=og:title><meta content="Cheatsheet of Profiling Multi-Core Systems | Jiacheng's Mini Blog" name=twitter:title><meta content="Cover some quick tools and some of my empirical approaches on profiling multi-core systems." name=description><meta content="Cover some quick tools and some of my empirical approaches on profiling multi-core systems." property=og:description><meta content="Cover some quick tools and some of my empirical approaches on profiling multi-core systems." name=twitter:description><meta content="Jiacheng's Mini Blog" property=og:site_name><meta content=https://jason0214.github.io property=og:url><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href=https://jason0214.github.io/base.css rel=stylesheet><link href=https://fonts.googleapis.com rel=preconnect><link crossorigin href=https://fonts.gstatic.com rel=preconnect><link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel=stylesheet><link href=https://jason0214.github.io/fontawesome/fontawesome.css rel=stylesheet><link href=https://jason0214.github.io/fontawesome/brands.css rel=stylesheet><link href=https://jason0214.github.io/fontawesome/solid.css rel=stylesheet><link href=https://jason0214.github.io/favicon.ico rel=icon type=image/x-icon><body><a class="skip-link p-screen-reader-text" href=#main>Skip to content</a><header class=l-header><h1 class="c-title p-title"><a class=p-title__link href=https://jason0214.github.io>Jiacheng's Mini Blog</a></h1><p class=p-subtitle>Less tech, more life</header><main class=l-main id=main><article class=p-article><header><h1>Cheatsheet of Profiling Multi-Core Systems</h1><div><div class=c-time><time datetime=" 2020-07-07"> 2020-07-07 </time> - (3 min read)</div></div></header><section class=p-article__body id=js-article><p>Cover some quick tools and some of my empirical approaches on profiling multi-core systems.</p><span id=continue-reading></span><h2 id=htop-cpu-utilizations-hyper-threading-cross-socket-and-memory-usage><code>htop</code> - CPU utilizations, Hyper Threading, Cross Socket, and Memory Usage<a aria-label="Anchor link for: htop-cpu-utilizations-hyper-threading-cross-socket-and-memory-usage" class=zola-anchor href=#htop-cpu-utilizations-hyper-threading-cross-socket-and-memory-usage><i class="fas fa-link"></i></a></h2><ul><li>CPU utilization of active cores should be close to 100%<li>User space CPU utilization should be close to 100% <ul><li>if not, pay attention to syscalls and faults (e.g. page faults)</ul><li>Normally no swap space should be used.</ul><p>Note that <code>htop</code> only displays logical cores (identified by cpu_id) that might be hyper threads of physical cores. You can not tell which logical cores are on the same physical core from the <code>htop</code> panel. <code>htop</code> does not show topology information such as <a href=https://en.wikipedia.org/wiki/CPU_socket>socket</a> either.<p>In order to get the core topology, check <code>/proc/cpuinfo</code>. An example:<pre class=language-bash data-lang=bash style=color:#c0c5ce;background-color:#2b303b><code class=language-bash data-lang=bash><span style=color:#bf616a>$</span><span> cat /proc/cpuinfo
+</span></code></pre><pre style=color:#c0c5ce;background-color:#2b303b><code><span>processor       : 0
+</span><span>vendor_id       : GenuineIntel
+</span><span>cpu family      : 6
+</span><span>model           : 85
+</span><span>model name      : Intel(R) Xeon(R) Gold 6252 CPU @ 2.10GHz
+</span><span>stepping        : 7
+</span><span>microcode       : 0x500002c
+</span><span>cpu MHz         : 1057.852
+</span><span>cache size      : 36608 KB
+</span><span>physical id     : 0
+</span><span>siblings        : 48
+</span><span>core id         : 0
+</span><span>cpu cores       : 24
+</span><span>apicid          : 0
+</span><span>initial apicid  : 0
+</span><span>fpu             : yes
+</span><span>fpu_exception   : yes
+</span><span>cpuid level     : 22
+</span><span>wp              : yes
+</span><span>...
+</span><span>
+</span><span>processor       : 1
+</span><span>vendor_id       : GenuineIntel
+</span><span>cpu family      : 6
+</span><span>model           : 85
+</span><span>model name      : Intel(R) Xeon(R) Gold 6252 CPU @ 2.10GHz
+</span><span>stepping        : 7
+</span><span>microcode       : 0x500002c
+</span><span>cpu MHz         : 999.633
+</span><span>cache size      : 36608 KB
+</span><span>physical id     : 1
+</span><span>siblings        : 48
+</span><span>core id         : 0
+</span><span>cpu cores       : 24
+</span><span>...
+</span></code></pre><p>There are other alternative commands that shows more compact and readable cpu info. For example:<pre class=language-bash data-lang=bash style=color:#c0c5ce;background-color:#2b303b><code class=language-bash data-lang=bash><span style=color:#bf616a>$</span><span> lscpu</span><span style=color:#bf616a> --all --extended
+</span></code></pre><pre style=color:#c0c5ce;background-color:#2b303b><code><span>CPU NODE SOCKET CORE L1d:L1i:L2:L3 ONLINE    MAXMHZ    MINMHZ
+</span><span>  0    0      0    0 0:0:0:0          yes 3700.0000 1000.0000
+</span><span>  1    1      1    1 1:1:1:1          yes 3700.0000 1000.0000
+</span><span>  2    0      0    2 2:2:2:0          yes 3700.0000 1000.0000
+</span><span>  3    1      1    3 3:3:3:1          yes 3700.0000 1000.0000
+</span><span>  4    0      0    4 4:4:4:0          yes 3700.0000 1000.0000
+</span><span>  5    1      1    5 5:5:5:1          yes 3700.0000 1000.0000
+</span><span>  6    0      0    6 6:6:6:0          yes 3700.0000 1000.0000
+</span><span>  7    1      1    7 7:7:7:1          yes 3700.0000 1000.0000
+</span><span>  8    0      0    8 8:8:8:0          yes 3700.0000 1000.0000
+</span><span>  9    1      1    9 9:9:9:1          yes 3700.0000 1000.0000
+</span><span> 10    0      0   10 10:10:10:0       yes 3700.0000 1000.0000
+</span><span> 11    1      1   11 11:11:11:1       yes 3700.0000 1000.0000
+</span><span> 12    0      0   12 12:12:12:0       yes 3700.0000 1000.0000
+</span><span> 13    1      1   13 13:13:13:1       yes 3700.0000 1000.0000
+</span><span> 14    0      0   14 14:14:14:0       yes 3700.0000 1000.0000
+</span><span> 15    1      1   15 15:15:15:1       yes 3700.0000 1000.0000
+</span><span> 16    0      0   16 16:16:16:0       yes 3700.0000 1000.0000
+</span><span> 17    1      1   17 17:17:17:1       yes 3700.0000 1000.0000
+</span><span> 18    0      0   18 18:18:18:0       yes 3700.0000 1000.0000
+</span><span> 19    1      1   19 19:19:19:1       yes 3700.0000 1000.0000
+</span><span> 20    0      0   20 20:20:20:0       yes 3700.0000 1000.0000
+</span><span> 21    1      1   21 21:21:21:1       yes 3700.0000 1000.0000
+</span><span> 22    0      0   22 22:22:22:0       yes 3700.0000 1000.0000
+</span><span> ...
+</span><span>
+</span></code></pre><h2 id=usr-bin-time-memory-resident-size-and-context-switches><code>/usr/bin/time</code> - Memory resident size, and Context Switches.<a aria-label="Anchor link for: usr-bin-time-memory-resident-size-and-context-switches" class=zola-anchor href=#usr-bin-time-memory-resident-size-and-context-switches><i class="fas fa-link"></i></a></h2><p>Example of running <code>/usr/bin/time</code> on <code>ls</code>:<pre class=language-bash data-lang=bash style=color:#c0c5ce;background-color:#2b303b><code class=language-bash data-lang=bash><span style=color:#bf616a>$</span><span> /usr/bin/time</span><span style=color:#bf616a> -v</span><span> ls
+</span></code></pre><pre style=color:#c0c5ce;background-color:#2b303b><code><span>...
+</span><span>	Command being timed: "ls"
+</span><span>	User time (seconds): 0.00
+</span><span>	System time (seconds): 0.00
+</span><span>	Percent of CPU this job got: 100%
+</span><span>	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:00.00
+</span><span>	Average shared text size (kbytes): 0
+</span><span>	Average unshared data size (kbytes): 0
+</span><span>	Average stack size (kbytes): 0
+</span><span>	Average total size (kbytes): 0
+</span><span>	Maximum resident set size (kbytes): 1960
+</span><span>	Average resident set size (kbytes): 0
+</span><span>	Major (requiring I/O) page faults: 0
+</span><span>	Minor (reclaiming a frame) page faults: 83
+</span><span>	Voluntary context switches: 1
+</span><span>	Involuntary context switches: 0
+</span><span>	Swaps: 0
+</span><span>	File system inputs: 0
+</span><span>	File system outputs: 0
+</span><span>	Socket messages sent: 0
+</span><span>	Socket messages received: 0
+</span><span>	Signals delivered: 0
+</span><span>	Page size (bytes): 4096
+</span><span>	Exit status: 0
+</span></code></pre><h2 id=perf-cpu-cycles-cache-misses-and-more><code>perf</code> - CPU Cycles, Cache Misses, and more.<a aria-label="Anchor link for: perf-cpu-cycles-cache-misses-and-more" class=zola-anchor href=#perf-cpu-cycles-cache-misses-and-more><i class="fas fa-link"></i></a></h2><p>Check the <a href=https://perf.wiki.kernel.org/index.php/Main_Page>wiki</a> for anything you need.<h3 id=perf-top><code>perf top</code><a aria-label="Anchor link for: perf-top" class=zola-anchor href=#perf-top><i class="fas fa-link"></i></a></h3><p><code>perf top</code> shows 'realtime' perf data and is interactive. You can step in a function on the panel and visualize the hotspots in the assembly code (with C/C++ symbol annotations).<p>Symbols of an optimized binary may not be very intuitive, nevertheless it helps locate hotspots into several lines of code.<p>If the annotation symbols are lost, double check compiler options to ensure that the binary is compiled with <code>-g</code>. You can use <code>objdump -h a.out | tail</code> to verify that symbols (segments with header prefixed by 'debug_') are present in the binary.<h2 id=top-down-analysis>Top Down analysis<a aria-label="Anchor link for: top-down-analysis" class=zola-anchor href=#top-down-analysis><i class="fas fa-link"></i></a></h2><p>Top down analysis is the recommended way to profile processes on cores that have Out-of-order and Speculative Execution. My understanding Top-down analysis counts the events from the hardware perspective, for example its top-level breakdown tracks <code>uops</code> instead of branch mis-predictions and cache misses.<p>The hierarchical view: <img alt=top-down src=https://jason0214.github.io/cheatsheet-of-profiling-multi-core-systems/./static/cheatsheet-of-profiling-multi-core-systems-top-down.png><p>A detailed design introduction is available on the paper <a href=https://ieeexplore.ieee.org/document/6844459>A Top-Down Method for Performance Analysis and Counters Architecture</a>.<p>Important DOs and DONTs:<blockquote><ol><li>A value of an inner node should be disregarded unless nodes on the path from the root to that particular node are all flagged.<li>Comparing fractions of non-sibling nodes is not recommended</ol></blockquote><p>Top down analysis can be applied through profilers such as VTune or more lightweight <a href=https://github.com/andikleen/pmu-tools>pmu-tools</a>.<pre class=language-bash data-lang=bash style=color:#c0c5ce;background-color:#2b303b><code class=language-bash data-lang=bash><span style=color:#bf616a>$ ~</span><span>/pmu-tools/toplev.py</span><span style=color:#bf616a> --force-cpu</span><span>=skx</span><span style=color:#bf616a> --core</span><span> S0-C0</span><span style=color:#bf616a> -l3 -v --no-desc
+</span></code></pre><h2 id=flame-graph>Flame Graph<a aria-label="Anchor link for: flame-graph" class=zola-anchor href=#flame-graph><i class="fas fa-link"></i></a></h2><p>TODO: <a href=https://github.com/brendangregg/FlameGraph>FlameGraph</a><h2 id=off-cpu-analysis>Off-CPU analysis<a aria-label="Anchor link for: off-cpu-analysis" class=zola-anchor href=#off-cpu-analysis><i class="fas fa-link"></i></a></h2><p>TODO: <a href=https://github.com/iovisor/bcc>bcc</a><h2 id=memory-footprint>Memory Footprint<a aria-label="Anchor link for: memory-footprint" class=zola-anchor href=#memory-footprint><i class="fas fa-link"></i></a></h2><p>TODO: <a href=https://github.com/stefannoll/mat>https://github.com/stefannoll/mat</a><p>TODO: <a href=https://dl.acm.org/doi/pdf/10.1145/3399666.3399896>Analyzing Memory Accesses With Modern Processors</a><h2 id=pahole-poke-a-hole>Pahole (Poke a Hole)<a aria-label="Anchor link for: pahole-poke-a-hole" class=zola-anchor href=#pahole-poke-a-hole><i class="fas fa-link"></i></a></h2><p>Static analysis to show "holes" (unused bytes, unfilled cacheline) in your data structure due to alignment.<p>TODO: <a href=https://lwn.net/Articles/335942/>https://lwn.net/Articles/335942/</a><h2 id=reference>Reference:<a aria-label="Anchor link for: reference" class=zola-anchor href=#reference><i class="fas fa-link"></i></a></h2><ul><li><a href=https://unix.stackexchange.com/questions/57920/how-do-i-know-which-processors-are-physical-cores>https://unix.stackexchange.com/questions/57920/how-do-i-know-which-processors-are-physical-cores</a><li><a href=https://stackoverflow.com/questions/774556/peak-memory-usage-of-a-linux-unix-process>https://stackoverflow.com/questions/774556/peak-memory-usage-of-a-linux-unix-process</a></ul></section><footer><nav class="c-pagination p-pagination"><div class=c-pagination__ctrl><div class=c-pagination__newer></div><div class=c-pagination__older></div></div></nav></footer></article></main><footer class=l-footer><p class=p-copyright></footer>
