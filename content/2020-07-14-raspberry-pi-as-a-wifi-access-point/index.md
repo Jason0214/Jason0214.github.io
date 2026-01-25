@@ -3,6 +3,7 @@ title: Raspberry Pi as a Wifi Access Point
 lang: en-US
 date: 2020-07-14
 tags: [ embedded system ]
+
 ---
 
 Make Raspberry Pi 4 an access point -- and further a transparent proxy. 

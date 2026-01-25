@@ -1,7 +1,9 @@
 ---
-title: Readings
+title: Graphics and System Readings
 lang: en-US
-date: 2021-08-01
+date: 2021-04-07
+tags: [ graphics, system ]
+
 ---
 
 Blogs and articles that I found interesting.
@@ -34,7 +36,7 @@ At that time, all the lab people believe Push based execution is a clear win.
 Not limit to cache efficiency, the data can even be kept entirely in registers if the operation footprint is small as mentioned in Thomas Neumann's paper.
 
 Still the shortcoming of the Push based execution mentioned in the article is valid.
-In merge join, Push based model may need to materialize more than necessary data.
+In merge join, Push based model may need to materialize more data than necessary.
 Though I fail to see how LIMIT alone can create problems for Push based model. I may need to spend some to read Shaikhha's paper :)
 
 
@@ -134,7 +136,7 @@ The key takeaways for the last read: [PRAM](https://en.wikipedia.org/wiki/Parall
 [https://randomascii.wordpress.com/2021/07/25/finding-windows-handle-leaks-in-chromium-and-others/]
 (https://randomascii.wordpress.com/2021/07/25/finding-windows-handle-leaks-in-chromium-and-others/)
 
-Good writeup. I don't have much Windows experience. On Linux checking fd handles leak is much easier, but I am  not aware of tool that can do a good visualization on it.
+Good writeup. I don't have much Windows experience. On Linux checking fd handles leak is much easier, but I am not aware of tool that can do a good visualization on it.
 WPA is pretty impressive.
 
 Some funny comments from HackerNews:
@@ -149,6 +151,7 @@ In case the title being misleading, it is actual an article from a system resear
 To be honest, I don't like the attitude in this article that system people being superior than others. Though, it might just be some acceptable literary techniques.
 
 I have to admit the languages are vivid and the metaphors are unique. IMO, it might be a good reference for managers in charge of a bunch of system people to quote some motivation slogans. And it might work well. System people are indeed "nerds" :)
+
 
 ### What mRNA is Good For, And What It Maybe Isn’t
 [https://blogs.sciencemag.org/pipeline/archives/2021/06/29/what-mrna-is-good-for-and-what-it-maybe-isnt](https://blogs.sciencemag.org/pipeline/archives/2021/06/29/what-mrna-is-good-for-and-what-it-maybe-isnt)

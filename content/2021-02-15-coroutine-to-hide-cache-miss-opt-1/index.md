@@ -3,6 +3,7 @@ title: Coroutine to Hide Cache Miss Optimization (1)
 lang: en-US
 date: 2021-02-15
 tags: [ compiler ]
+
 ---
 
 Last year I co-authored the [Corobase](http://www.vldb.org/pvldb/vol14/p431-he.pdf) paper
@@ -37,13 +38,7 @@ But there are runtime states, such as value of local variables that lives across
 Obviously, the states can not be saved not on the stack,
 otherwise they quickly gets overwritten by function calls following coroutine suspending.
 
-The clang(LLVM)'s implementation of stackless coroutine dynamic allocates the memory called coroutine frame
-for keeping the states.
-Local variables are saved to the coroutine frame on suspending and reloaded back to the process stack on resuming.
-Other states like return value and whether suspendable go to the coroutine frame as well.
-
-## Coroutine to hide data stall
-The clang's implementation of stackless coroutine has very cheap context switches
+The clang(LLVM)'s implementation of stackless coroutine has very cheap context switches
 (not the same "context-switch" in multi-threading,
 here it means suspending from a coroutine and resuming another one).
 I am not able to find the exact timing of a context switch,
@@ -244,11 +239,11 @@ We have tested this approach before Corobase and it does not perform well.
 Still, I removed `initial_suspend` and made changes to the linked list accordingly,
 the generated IR in `-O3` for the same sample:
 ``` LLVM
-; demangled to task<void> ChainedCoroCall<5>(int*)
+; demangle to task<void> ChainedCoroCall<5>(int*)
 define linkonce_odr void @_Z15ChainedCoroCallILi5EE4taskIvEPi(%class.task* noalias sret align 8 %agg.result, i32* %callLevelCounter) #0 {
     ...
     call void @llvm.lifetime.start.p0i8(i64 8, i8* nonnull %ref.tmp11) #2
-    ; demangled to task<void> ChainedCoroCall<4>(int*)
+    ; demangle to task<void> ChainedCoroCall<4>(int*)
     ; direct call :)
     call void @_Z15ChainedCoroCallILi4EE4taskIvEPi(%class.task* nonnull sret align 8 %1, i32* nonnull %callLevelCounter)
     ...
@@ -304,5 +299,3 @@ Same, will look into the design of Rust coroutine in the next post.
 - [https://youtu.be/8C8NnE1Dg4A?t=841](https://youtu.be/8C8NnE1Dg4A?t=841)
 - [https://llvm.org/docs/Coroutines.html](https://llvm.org/docs/Coroutines.html)
 - [http://www.cs.cornell.edu/~asampson/blog/clangpass.html](http://www.cs.cornell.edu/~asampson/blog/clangpass.html)
-
-

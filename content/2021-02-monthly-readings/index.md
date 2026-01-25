@@ -2,6 +2,8 @@
 title: Graphics and System Readings
 lang: en-US
 date: 2021-02-28
+tags: [ graphics, system ]
+
 ---
 
 Blogs and news read during Feb. 2021 that I found interesting.

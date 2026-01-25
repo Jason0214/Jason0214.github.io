@@ -1,7 +1,9 @@
 ---
 title: Graphics and System Readings
 lang: en-US
-date: 2021-02-16
+date: 2021-01-16
+tags: [ graphics, system ]
+
 ---
 
 Blogs and news read during Oct. 2020 to Jan. 2021 that I found interesting. Summaries updated in Feb. 2021.
@@ -103,9 +105,9 @@ The protected KVM project is trying to create a virtual environment in AOSP for 
 [https://lwn.net/Articles/837816/](https://lwn.net/Articles/837816/) - November 20, 2020
 > The kernel's "epoll" subsystem provides a high-performance mechanism for a process to wait on events from a large number of open file descriptors. ... waiting on events with epoll_wait() or epoll_pwait(). When waiting, the caller can specify a timeout as an integer number of milliseconds.
 
->  Nearly 20 years ago, when this work was being done, a millisecond timeout seemed like enough resolution ... In 2020, though, one millisecond can be an eternity;
+> Nearly 20 years ago, when this work was being done, a millisecond timeout seemed like enough resolution ... In 2020, though, one millisecond can be an eternity;
 
->  the patch set instead added a new flag (EPOLL_NSTIMEO) to epoll_create() ... If an epoll file descriptor was created with that flag set, then the timeout value for epoll_wait() would be interpreted as being in nanoseconds rather than milliseconds ... Having one system call set a flag to change how arguments to a different system call would be interpreted was "not very nice"  ... After a bit of back and forth, that is what happened ... the patch set adds epoll_pwait2():
+> the patch set instead added a new flag (EPOLL_NSTIMEO) to epoll_create() ... If an epoll file descriptor was created with that flag set, then the timeout value for epoll_wait() would be interpreted as being in nanoseconds rather than milliseconds ... Having one system call set a flag to change how arguments to a different system call would be interpreted was "not very nice" ... After a bit of back and forth, that is what happened ... the patch set adds epoll_pwait2():
 
 New syscall `epoll_pwait2()` to support nanoseconds event waits.
 
@@ -113,7 +115,7 @@ New syscall `epoll_pwait2()` to support nanoseconds event waits.
 
 New syscall `close_range()` to close a range of fds.
 
-> Some filesystems have the ability to compress and/or encrypt data written to files ...  somebody wanted the ability to work with this "encoded" data directly, bypassing the processing steps within the filesystem code ... With this patch set applied, it becomes possible to read the compressed and/or encrypted data directly and write it directly, with no intervening processing. 
+> Some filesystems have the ability to compress and/or encrypt data written to files ... somebody wanted the ability to work with this "encoded" data directly, bypassing the processing steps within the filesystem code ... With this patch set applied, it becomes possible to read the compressed and/or encrypted data directly and write it directly, with no intervening processing. 
 
 New syscalls `preadv()` and `pwritev()` to support directly read and write encoded data.
 
@@ -183,7 +185,7 @@ The [ChamferWM](https://www.phoronix.com/scan.php?page=news_item&px=ChamferWM-Vu
 [https://www.collabora.com/developing-wayland-color-management](https://www.collabora.com/news-and-blog/blog/2020/11/19/developing-wayland-color-management-and-high-dynamic-range/) - November 19, 2020
 > Wayland (the protocol and architecture) is still lacking proper consideration for color management... even X11 has not gained support for HDR... This is a story about starting the efforts to fix the situation on Wayland.
 
-> The foundation for the color management protocol are ICC profile files for describing both output and content color spaces... HDR brings even more reasons to put color space conversions in the display server than just the idea that all applications should be color managed...
+> The foundation for the color management protocol are ICC profile files for describing both output and color space conversions... HDR brings even more reasons to put color space conversions in the display server than just the idea that all applications should be color managed...
 
 > There are several big and small open questions we haven't had the time to tackle yet... This work is likely to take months still before there is a complete tentative protocol, and probably years until these features are available in your favourite Wayland desktop environments.
 
@@ -225,8 +227,6 @@ Somehow reminds me of [Intel's failed x86 GPU project](https://www.techspot.com/
 > dump the global mappings (and their GPU virtual addresses) ... scratch buffer has appeared! 
 
 > two primary usages of the scratch buffer: 1. The GPU address of a preemption restore buffer is dumped to the scratch memory, which appears to be used if a higher priority GPU command interrupts a lower priority command. 2. The read pointer (RPTR) of the ringbuffer (RB) is read from scratch memory and used when calculating the amount of free space in the ringbuffer.
-
-> To understand what an invalid RPTR value might mean for a ringbuffer allocation, we first need to describe the ringbuffer itself ... When a userland application submits a GPU command ... The kernel driver will write commands into the ringbuffer, and the GPU will read commands from the ringbuffer ... This occurs in a similar fashion to classical circular buffers ... Two indices are maintained to track where the CPU is writing to (WPTR), and where the GPU is reading from (RPTR). 
 
 > So what happens if the scratch RPTR value is controlled by an attacker? ... For example, we can make the condition ... succeed when it normally wouldn't by artificially increasing the value of the scratch RPTR, which ... results in returning a portion of the ringbuffer that overlaps the correct RPTR location ... That means that an attacker could overwrite ringbuffer commands that haven't yet been processed by the GPU with incoming GPU commands! 
 

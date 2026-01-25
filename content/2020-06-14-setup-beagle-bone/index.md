@@ -3,6 +3,7 @@ title: Setup Beagle Bone
 lang: en-US
 date: 2020-06-14
 tags: [ embedded system ]
+
 ---
 
 Instructions on setting up development environment on Beagle Bone, in case I forget it again.
@@ -57,7 +58,8 @@ $ sudo screen /dev/ttyACM0 115200
 
 Frequently used Serial instructions:
 - Show help: `Control a + (no control) ?`
-- Exit: `Control a + (no control) \`
+- Exit: `Control a + (no control) \
+`
 
 
 ### Ethernet over USB
@@ -93,5 +95,6 @@ $ sudo iptables -t nat -A POSTROUTING --out-interface <Host network interface> -
 ### DNS server
 Prepend DNS server address to `resolv.conf`
 ```
-$ sudo sed -i '1inameserver 8\.8\.8\.8' /etc/resolv.conf
+$ sudo sed -i '1inameserver 8.8.8.8' /etc/resolv.conf
 ```
+

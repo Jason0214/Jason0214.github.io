@@ -3,6 +3,7 @@ title: Cheatsheet of Profiling Multi-Core Systems
 lang: en-US
 date: 2020-07-07
 tags: [ toolchain, TODO ]
+
 ---
 
 Cover some quick tools and some of my empirical approaches on profiling multi-core systems.

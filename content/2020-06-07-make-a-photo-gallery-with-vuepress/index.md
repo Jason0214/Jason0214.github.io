@@ -3,6 +3,7 @@ title: Make a Photo Gallery with Vuepress
 lang: en-US
 date: 2020-06-07
 tags: [ web, TODO ]
+
 ---
 
 [Vuepress](https://github.com/vuejs/vuepress) is a simple framework to generate static webpages.

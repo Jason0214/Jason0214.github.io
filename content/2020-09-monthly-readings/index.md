@@ -2,6 +2,8 @@
 title: Graphics and System Readings
 lang: en-US
 date: 2020-09-22
+tags: [ graphics, system ]
+
 ---
 
 Blogs and news read in Sept. 2020 that I found interesting. Summaries updated in Feb. 2021.

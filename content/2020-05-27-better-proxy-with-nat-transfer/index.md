@@ -3,6 +3,7 @@ title: Better Proxy with NAT Transfer
 lang: en-US
 date: 2020-05-27
 tags: [ network ]
+
 ---
 
 I have a proxy server that works well, but recently I was quite suffering from the bad networking (very high latency and packet loss) accessing my server.
@@ -61,4 +62,3 @@ echo 1 > /proc/sys/net/ipv4/ip_forward
 
 ## Reference
 - [http://linux-training.be/networking/ch14.html](http://linux-training.be/networking/ch14.html)
-

@@ -3,6 +3,7 @@ title: Cross Compile Embedded Python
 lang: en-US
 date: 2018-06-23
 tags: [ embedded system ]
+
 ---
 
 A Brief guide on how to cross compile a python embedded C program onto a linux based embedded device.

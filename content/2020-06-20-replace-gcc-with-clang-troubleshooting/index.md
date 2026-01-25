@@ -3,6 +3,7 @@ title: Replace gcc with clang Troubleshooting
 lang: en-US
 date: 2020-06-20
 tags: [ toolchain ]
+
 ---
 
 I was rebuilding [Interval-Based-Reclamation](https://github.com/roghnin/Interval-Based-Reclamation) with `clang` to adapt it to a microbenchmark for garbage collection with coroutine (`clang` has a better coroutine implementation). I made several mistakes which took me a long time to figure out. The mistakes are silly, while the investigation is kinda fun and worth sharing.
@@ -31,7 +32,7 @@ $ make CXX="clang++ -v" 2>&1 | grep stdc++
 ```
 I got the log where I saw `-lstdc++` in the output of `ld` call made by `clang`
 ```
- "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o bin/release/main /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/crtbeginS.o -L./ext/parharness -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib obj/release/src/CustomTests.o obj/release/src/rideables/BonsaiTreeRange.o obj/release/src/rideables/BonsaiTree.o obj/release/src/coroutine.o obj/release/src/main.o -lparharness -lhwloc -lpthread -lm -lrt -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64/crtn.o
+ "/usr/bin/ld" -pie --eh-frame-hdr -m elf_x86_64 -dynamic-linker /lib64/ld-linux-x86-64.so.2 -o bin/release/main /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64/Scrt1.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/crti.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/crtbeginS.o -L./ext/parharness -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64 -L/usr/bin/../lib64 -L/lib/../lib64 -L/usr/lib/../lib64 -L/usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../.. -L/usr/bin/../lib -L/lib -L/usr/lib obj/release/src/CustomTests.o obj/release/src/rideables/BonsaiTreeRange.o obj/release/src/rideables/BonsaiTree.o obj/release/src/coroutine.o obj/release/src/main.o -lparharness -lhwloc -lpthread -lm -lrt -lstdc++ -lm -lgcc_s -lgcc -lc -lgcc_s -lgcc /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/crtendS.o /usr/bin/../lib64/gcc/x86_64-pc-linux-gnu/10.1.0/../../../../lib64/crtn.o
 ```
 
 ## Verify libc++ is visible to linker
@@ -119,5 +120,3 @@ I finally noticed that I made a typo in toggling `libc++` in `libparharness.a` w
 - [https://stackoverflow.com/questions/38441490/how-to-check-if-libc-is-installed](https://stackoverflow.com/questions/38441490/how-to-check-if-libc-is-installed)
 - [https://stackoverflow.com/questions/3880924/how-to-view-symbols-in-object-files](https://stackoverflow.com/questions/3880924/how-to-view-symbols-in-object-files)
 - [https://stackoverflow.com/questions/29293394/where-does-the-1-symbol-come-from-when-using-llvms-libc](https://stackoverflow.com/questions/29293394/where-does-the-1-symbol-come-from-when-using-llvms-libc)
-
-

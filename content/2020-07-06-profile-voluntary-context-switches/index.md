@@ -3,8 +3,8 @@ title: Profile Voluntary Context Switches
 lang: en-US
 date: 2020-07-06
 tags: [ toolchain ]
----
 
+---
 
 When running benchmarks in [Interval-Based-Reclamation](https://github.com/roghnin/Interval-Based-Reclamation), I observed a suspicious **Voluntary Context Switches** increase using epoch based reclamation. I profiled the program and traced the context switches back to some mutexes in [jemalloc](https://github.com/jemalloc/jemalloc).
 

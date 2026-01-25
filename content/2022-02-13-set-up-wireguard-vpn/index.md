@@ -3,6 +3,7 @@ title: Set Up Wireguard VPN Server
 lang: en-US
 date: 2022-02-13
 tags: [ network ]
+
 ---
 
 Wireguard is a VPN protocol, which has an implementation presents in the Linux kernel.
