@@ -49,7 +49,7 @@ perf stat -e 'syscalls:sys_enter_*' -p $PID
 ```
 
 Result shows that [`futex`](https://man7.org/linux/man-pages/man2/futex.2.html) has been continuously called.
-![futex](./static/profile-voluntary-context-switches-futex.png)
+![futex](profile-voluntary-context-switches-futex.png)
 
 ## Trace system calls
 
@@ -59,7 +59,7 @@ strace --trace=futex -p $PID
 ```
 
 From the trace, `futex` is called from different PCs.
-![futex](./static/profile-voluntary-context-switches-strace.png)
+![futex](profile-voluntary-context-switches-strace.png)
 
 ## Stacktrace the system call with `gdb`
 
@@ -70,7 +70,7 @@ To identify the PC of `futex`, use `gdb` to set a breakpoint on the `futex` sysc
 ```
 
 One of the stack traces:
-![gdb](./static/profile-voluntary-context-switches-gdb.png)
+![gdb](profile-voluntary-context-switches-gdb.png)
 
 
 ## Summary

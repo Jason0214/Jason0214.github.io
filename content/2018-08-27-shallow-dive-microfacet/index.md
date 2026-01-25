@@ -16,7 +16,7 @@ Here is a very shallow dive on microfacet.
 In the microfacet model, a surface consists of millions of micro surfaces, with each micro surface being perfectly smooth.
 Each micro surface has a normal where only perfect reflection happens. 
 
-![microfacet_visual](./static/shallow-dive-on-microfacet_half-vector.png)
+![microfacet_visual](shallow-dive-on-microfacet_half-vector.png)
 
 Note that micro surface normals are somewhat related to the "macro" surface normal, but it's not the same.
 An incident light to a rough surface will be scattered into different directions by every micro surface it can hit.
@@ -27,7 +27,7 @@ Obviously, `h = normalize(l + v)` where `l` is the light direction and `v` is th
 ## Microfacet formula
 A general form of microfacet model
 
-![microfacet_model](./static/shallow-dive-on-microfacet_formula.png)
+![microfacet_model](shallow-dive-on-microfacet_formula.png)
 
 has four terms **diffuse**, **distribution term (D)**, **fresnel term (F)** and **geometry term(G)**.
 These four terms are always present for all the microfacet models, while the actual implementation of each term may differ by models.
@@ -38,7 +38,7 @@ Distribution describes how many micro surfaces are hit in the light direction.
 ## Fresnel term
 Fresnel term describes the physical phenomenon that for any lit surfaces, the amount of light reflected is related to the incident light angle.
 
-![fresnel](./static/shallow-dive-on-microfacet_natural-fresnel.png)
+![fresnel](shallow-dive-on-microfacet_natural-fresnel.png)
 
 In the above real world example, in the nearby area where the angle between view(light) direction and water surface normal is small, transmission (refraction) dominates.
 However in the far area where the angle difference is larger, most of the light is reflected.
@@ -46,7 +46,7 @@ However in the far area where the angle difference is larger, most of the light 
 ## Geometry term
 Geometry term measures the amount of incident light and light reflected from micro surfaces that in the end is blocked by other micro surfaces.
 
-![shadow_mask](./static/shallow-dive-on-microfacet_v-shape.png)
+![shadow_mask](shallow-dive-on-microfacet_v-shape.png)
 
 See the above deep v-shaped micro surfaces, some incident light is blocked which causes part of the surface in shadow, and some reflected light is masked by the surface itself as well.
 

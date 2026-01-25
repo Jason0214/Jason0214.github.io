@@ -96,12 +96,12 @@ Flexbox has the drawback that it can not perfectly handle `flex-grow` together w
 
 For an extreme example, if only one photo is left to the last row, it would be stretched to the row width (default `flex-grow: 1`).
 
-![make-a-photo-gallery-with-vuepress_last-row-stretch](./static/make-a-photo-gallery-with-vuepress_last-row-stretch.jpg)
+![make-a-photo-gallery-with-vuepress_last-row-stretch](make-a-photo-gallery-with-vuepress_last-row-stretch.jpg)
 The [last-child selector](http://localhost:8080/posts/make-a-photo-gallery-with-vuepress.html) can be used to change the last photo's `flex-grow` to `0`, so that it does not stretch.
 
 In my opinion, it does not entirely solve the issue. When resolution changes on other devices, this last photo could be in a row together with other photos. In the example below, there are two photos in the last row, the `flex-grow` difference still causes one photo to stretch.
 
-![make-a-photo-gallery-with-vuepress_last-child-selector.jpg](./static/make-a-photo-gallery-with-vuepress_last-child-selector.jpg)
+![make-a-photo-gallery-with-vuepress_last-child-selector.jpg](make-a-photo-gallery-with-vuepress_last-child-selector.jpg)
 The takeaway is that it is hard to make it perfect on every device. Tune the order of the photos to till it looks good on one device and forget about others. Not such a big deal, as it is not an issue on very narrow screens (phones) where every row has only one photo.
 
 ## Lazy loading
@@ -120,7 +120,7 @@ Firefox does not have this issue (or feature).
 
 Note that images initially have no width. Therefore, images are in the same flex row before they get loaded. 
 
-![make-a-photo-gallery-with-vuepress_initial-one-row.jpg](./static/make-a-photo-gallery-with-vuepress_initial-one-row.jpg)
+![make-a-photo-gallery-with-vuepress_initial-one-row.jpg](make-a-photo-gallery-with-vuepress_initial-one-row.jpg)
 So even with lazy loading, more than necessary images are loaded in the first place (Think about when images are loaded, they wrap around and push the content below into invisible regions).
 
 To make it better, one possible approach is to make the image container (`<li>` in the context) reactive.
@@ -138,3 +138,4 @@ Should be straightforward, just inject a click event for each `<img>` in `mounte
 - [https://css-tricks.com/filling-space-last-row-flexbox/](https://css-tricks.com/filling-space-last-row-flexbox/)
 - [https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Mastering_Wrapping_of_Flex_Items](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Flexible_Box_Layout/Mastering_Wrapping_of_Flex_Items)
 - [https://css-tricks.com/adaptive-photo-layout-with-flexbox/](https://css-tricks.com/adaptive-photo-layout-with-flexbox/)
+

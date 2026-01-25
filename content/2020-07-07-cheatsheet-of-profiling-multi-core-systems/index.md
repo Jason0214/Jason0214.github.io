@@ -151,7 +151,7 @@ Top down analysis is the recommended way to profile processes on cores that have
 My understanding Top-down analysis counts the events from the hardware perspective, for example its top-level breakdown tracks `uops` instead of branch mis-predictions and cache misses.
 
 The hierarchical view:
-![top-down](./static/cheatsheet-of-profiling-multi-core-systems-top-down.png)
+![top-down](cheatsheet-of-profiling-multi-core-systems-top-down.png)
 
 A detailed design introduction is available on the paper [A Top-Down Method for Performance Analysis and Counters Architecture](https://ieeexplore.ieee.org/document/6844459).
 
@@ -188,3 +188,4 @@ TODO: [https://lwn.net/Articles/335942/](https://lwn.net/Articles/335942/)
 ## Reference:
 - [https://unix.stackexchange.com/questions/57920/how-do-i-know-which-processors-are-physical-cores](https://unix.stackexchange.com/questions/57920/how-do-i-know-which-processors-are-physical-cores)
 - [https://stackoverflow.com/questions/774556/peak-memory-usage-of-a-linux-unix-process](https://stackoverflow.com/questions/774556/peak-memory-usage-of-a-linux-unix-process)
+
